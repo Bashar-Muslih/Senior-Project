@@ -4,7 +4,7 @@
 #include <InverseK.h>
 
 void setup() {
-  // Setup the lengths and rotation limits for each link
+  // Setup the lengths and rotation limits for each link of the arm
   Link base, upperarm, forearm, hand;
 
   base.init(0, b2a(0.0), b2a(180.0));
