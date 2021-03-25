@@ -98,7 +98,7 @@ bool _Inverse::_solve(float x, float y, float phi, float& shoulder, float& elbow
 	float beta;
 	if(!_cosrule(_L2.getLength(), R, _L1.getLength(), beta)) return false;
 	
-	// Calcula the inner angle of the elbow
+	// Calculate the inner angle of the elbow
 	float gamma;
 	if(!_cosrule(R, _L1.getLength(), _L2.getLength(), gamma)) return false;
 	
