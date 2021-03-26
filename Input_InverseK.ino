@@ -30,7 +30,7 @@ void setup() {
     Serial.println("No solution found!");
   }
 
-  // Calculates the angles considering a specific approach angle
+  // Calculates the angles considering a specific approach anglee
   // InverseK.solve(x, y, z, a0, a1, a2, a3, phi)
   if(InverseK.solve(550, 0, 50, a0, a1, a2, a3, b2a(90.0))) {
     Serial.print(a2b(a0)); Serial.print(',');
