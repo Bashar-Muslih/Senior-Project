@@ -1,11 +1,22 @@
 // Arduino/Teensy example for Arduino Braccio
 
 // Include the library InverseK.h
-#include <InverseK.h>
+#include "InverseK.h"
+#include <Braccio.h>
+#include <Servo.h>
+
+Servo base;
+Servo shoulder;
+Servo elbow;
+Servo wrist_ver;
+Servo wrist_rot;
+Servo gripper;
 
 void setup() {
   // Setup the lengths and rotation limits for each link of the arm
   Link base, upperarm, forearm, hand;
+
+  Braccio.begin();
 
   base.init(0, b2a(0.0), b2a(180.0));
   upperarm.init(200, b2a(15.0), b2a(165.0));
@@ -22,28 +33,14 @@ void setup() {
   // Calculates the angles without considering a specific approach angle
   // InverseK.solve(x, y, z, a0, a1, a2, a3)
   if(InverseK.solve(550, 0, 50, a0, a1, a2, a3)) {
-    Serial.print(a2b(a0)); Serial.print(',');
-    Serial.print(a2b(a1)); Serial.print(',');
-    Serial.print(a2b(a2)); Serial.print(',');
-    Serial.println(a2b(a3));
-  } else {
-    Serial.println("No solution found!");
-  }
-
-  // Calculates the angles considering a specific approach anglee
-  // InverseK.solve(x, y, z, a0, a1, a2, a3, phi)
-  if(InverseK.solve(550, 0, 50, a0, a1, a2, a3, b2a(90.0))) {
-    Serial.print(a2b(a0)); Serial.print(',');
-    Serial.print(a2b(a1)); Serial.print(',');
-    Serial.print(a2b(a2)); Serial.print(',');
-    Serial.println(a2b(a3));
+    Braccio.ServoMovement(20, a0, a1, a2, a3, 0, 0); //need to move it to void loop()
   } else {
     Serial.println("No solution found!");
   }
 }
 
 void loop() {
-
+    
 }
 
 // Quick conversion from the Braccio angle system to radians
