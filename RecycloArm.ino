@@ -85,7 +85,7 @@ void loop(){
   digitalWrite(trig, HIGH);
   delayMicroseconds(100);
   digitalWrite(trig, LOW);
-  //Next we need ti define the distance it will be using.
+  //Next we need to define the distance it will be using.
   float distance = pulseIn(echo, HIGH);
   distance = (distance * .0343)/2; //duration times the speed of light cm/us
   Serial.print("Distance: ");
@@ -100,6 +100,18 @@ void loop(){
     //checks distance
     
   }
-
-  initial();
+  //For the above if statement we can possibly do this instead:
+  while (distance <= 50){
+    float angle1 = 45; //defining the variables to make it easier to subtract
+    float angle2 = 180;
+    float angle3 = 180;
+    
+    Braccio.ServoMovement(20,         Rotation, angle1, angle2, angle3, 90, 73); //moves the arm towards the item
+    angle1 = angle1 -1; //if the item isn't close enough we move up the arm a bit
+    angle2 = angle2 -1;
+    angle3 = angle3 -1;
+    distance = pulseIn(echo, HIGH); //calculates the new distance
+    distance = (distance * .0343)/2; //calculates the new distance
+  }
+    initial();
 }
