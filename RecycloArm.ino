@@ -138,7 +138,7 @@ void loop(){
   //stop moving once a distance is detected. This lower limit is measured from the base of the
   //hand to our sensor, once this is reached the movement stops and the hand closes.
   //Was thinking this might be a way to get our loop working but its not working right now.
-  if (distance >= 25; 0:x; x++){
+  if (distance >= 25){
     ang1 = 155 - x;
     ang2 = 180 - x;
     ang3 = 35 - x;
