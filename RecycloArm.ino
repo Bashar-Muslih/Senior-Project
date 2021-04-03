@@ -38,7 +38,7 @@ void initial(){
 }
 
 void grabbing(){
-  Braccio.ServoMovement(20,         90, 155, 180, 35, 90, 73);
+  Braccio.ServoMovement(20,         90, 155, 180, 35, 90, 10);
   //Angles needed to set our manipulator in to the grabbing position
   //When in this position the end effector is approx 448.35 mm away from the base.
 }
@@ -80,6 +80,7 @@ void rotation(){
 }
 
 void loop(){
+  initial();
     //Given X, and Y from the camera, we calculate the angle needed for our arm
   //to rotate to allow our arm to grab the can. 
   float X, Y, T_rotation, Rotation, pi, x, ang1, ang2, ang3;//These values are given to us from our camera
@@ -117,7 +118,6 @@ void loop(){
   Serial.println(Rotation);//Doesnt work for some reason, need to work on this.
   //Begin rotation after doing the math.
   Braccio.ServoMovement(20,         Rotation, 45, 180, 180, 90, 73);
-
   //For this function we need the 3 angles (M2, M3, M4) with regards to the ultrasonic sensor
   //information.
   //To have the sensor trigger we use the following:
@@ -138,9 +138,27 @@ void loop(){
   //stop moving once a distance is detected. This lower limit is measured from the base of the
   //hand to our sensor, once this is reached the movement stops and the hand closes.
   //Was thinking this might be a way to get our loop working but its not working right now.
-  if (distance >= 25){
-    ang1 = 155 - x;
+  if (distance > 25; x++){
+    ang1 = 155 + x;
     ang2 = 180 - x;
-    ang3 = 35 - x;
+    ang3 = 35 + x;
+    
+    Braccio.ServoMovement(20,         Rotation, ang1, ang2, ang3, 90, 10);//Compiles but not sure if it works
+    //need to glue the ultrasonic sensor
   }
+  //With our arm moving towards the soda can we now need some way to close hand of the arm.
+  //To do this we need to use ultrasonic sensor information.
+  if (distance == 25){
+    //This distance should be measured to be sure that the soda can is within the hand of the Braccio.
+    Braccio.ServoMovement(20,         Rotation, ang1, ang2, ang3, 90, 73);//73 Value means the gripper closes, this
+    //should be strong enough to grasp the soda can when its standing upright.
+  }
+  //With the soda can within the hand we must now move it to a box on the side to store it.
+  //This should be relatively simple as we are do not need to be super sensitive with it,
+  //we simply need to rotate the base 180, and then drop it in the box.
+  Braccio.ServoMovement(20,         180, 90, 45, 135, 90, 73);//This should rotate our soda can to the left as our angles are flipped
+  delay(500);//Half second delay
+  Braccio.ServoMovement(20,         180, 90, 45, 135, 90, 10);//This should drop our soda can
+  //*************** THIS SHOULD BE THE END OF OUR CODE ***********************//
+  //From here we just need to test on the arm and check to make sure everything runs the way we want it to
 }
