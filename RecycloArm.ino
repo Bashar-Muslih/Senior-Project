@@ -84,13 +84,28 @@ void loop(){
     //Given X, and Y from the camera, we calculate the angle needed for our arm
   //to rotate to allow our arm to grab the can. 
   float X, Y, T_rotation, Rotation, pi, x, ang1, ang2, ang3;//These values are given to us from our camera
+  float coord[1]; //Array with 2 values. Intended for [x, y].
   //The base is initially at 90 degrees, using this we can see that if X and Y
   //are positive therefore we are in Quadrant 1. If X is negative and Y is positive
   //we are in Quadrant 2.
   pi = 3.14;//Pi needs to be defined.
+  
+  if (Serial.available() > 0) { //Check if the Arduino has received data. Returns number of bytes already arrived and stored in the receive buffer.
+    for(int i = 0; i < 2; i++){ //Two iterations: one for 'x', one for 'y'
+      String data = Serial.readStringUntil('\n'); //Define 'data' as the string read. Sender uses '\n' to separate data.
+      Serial.println(data); //Print value
+      coord[i] = data.toFloat(); //Convert 'data' to a float and store in 'coord[i]'
+    }
+  }
+  //Assign received coordinates:
+  //X = coord[0];
+  //Y = coord[1];
+  
   //Dummy position.
   X = -351; 
   Y = 971;
+  
+  
   
   if (X > 0 && Y > 0){
     T_rotation = asin(X/(sqrt(pow(X,2) + pow(Y,2))));//This T_rotation is given in rads
