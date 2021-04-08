@@ -1,6 +1,8 @@
 /*
   ****INCOMPLETE****
   
+  Needs to be integrated into the code for the Arm; not independent code.
+  
   @April 7, 2021
     Copy and pasted
     Reading 'Serial' documentation for Arduino
