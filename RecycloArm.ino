@@ -90,10 +90,11 @@ void loop(){
   //we are in Quadrant 2.
   pi = 3.14;//Pi needs to be defined.
   
-  if (Serial.available() > 0) { //Check if the Arduino has received data. Returns number of bytes already arrived and stored in the receive buffer.
-    for(int i = 0; i < 2; i++){ //Two iterations: one for 'x', one for 'y'
+  for(int i = 0; i < 2; i++){ //Two iterations: one for 'x', one for 'y'
+    if (Serial.available() > 0) { //Check if the Arduino has received data. Returns number of bytes already arrived and stored in the receive buffer.
         coord[i] = Serial.parseFloat(); //Reads the first valid floating point number from the Serial buffer and stores into coord[i]
         Serial.print(coord[i]"\n"); //Prints data to the serial port as human-readable ASCII text.
+    }
   }
   //Assign received coordinates:
   //X = coord[0];
