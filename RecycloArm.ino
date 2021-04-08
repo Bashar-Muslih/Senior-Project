@@ -92,10 +92,8 @@ void loop(){
   
   if (Serial.available() > 0) { //Check if the Arduino has received data. Returns number of bytes already arrived and stored in the receive buffer.
     for(int i = 0; i < 2; i++){ //Two iterations: one for 'x', one for 'y'
-      String data = Serial.readStringUntil('\n'); //Define 'data' as the string read. Sender uses '\n' to separate data.
-      Serial.println(data); //Print value
-      coord[i] = data.toFloat(); //Convert 'data' to a float and store in 'coord[i]'
-    }
+        coord[i] = Serial.parseFloat(); //Reads the first valid floating point number from the Serial buffer and stores into coord[i]
+        Serial.print(coord[i]"\n"); //Prints data to the serial port as human-readable ASCII text.
   }
   //Assign received coordinates:
   //X = coord[0];
