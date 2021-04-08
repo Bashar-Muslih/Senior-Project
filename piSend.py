@@ -19,7 +19,7 @@ if __name__ == '__main__':
   ser.write(str(y)"\n)".encode('ascii')) #Write the bytes to the port. This should be of type bytes.
   
   #Print to see if values are correct
-  value2 = ser.read_until() #
-  value1 = ser.read_until()
+  value2 = ser.read_until() #Reads until "\n".
+  value1 = ser.read_until() #Reads until "\n". Hopefully the 2nd value.
   print("x = ", value1, "\n")
   print("y = ", value2, "\n")
