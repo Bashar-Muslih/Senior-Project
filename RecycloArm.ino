@@ -93,16 +93,18 @@ void loop(){
   for(int i = 0; i < 2; i++){ //Two iterations: one for 'x', one for 'y'
     if (Serial.available() > 0) { //Check if the Arduino has received data. Returns number of bytes already arrived and stored in the receive buffer.
         coord[i] = Serial.parseFloat(); //Reads the first valid floating point number from the Serial buffer and stores into coord[i]
-        Serial.print(coord[i]"\n"); //Prints data to the serial port as human-readable ASCII text.
+        Serial.print(coord[i]); //Prints data to the serial port as human-readable ASCII text.
     }
   }
   //Assign received coordinates:
-  //X = coord[0];
-  //Y = coord[1];
+  X = coord[0];
+  Y = coord[1];
+  printf("x = %f\n", X);
+  printf("y = %f\n", Y);
   
   //Dummy position.
-  X = -351; 
-  Y = 971;
+  //X = -351; 
+  //Y = 971;
   
   
   
