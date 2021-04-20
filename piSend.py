@@ -15,6 +15,7 @@ if __name__ == '__main__':
   #port is a device name: depending on operating system. e.g. /dev/ttyUSB0 on GNU/Linux or COM3 on Windows.
   ser.flush() #Wait until all data is written.
   
+  time.sleep(2) #Gives Arduino some time.
   ser.write(str(x)"\n".encode('ascii')) #Write the bytes to the port. This should be of type bytes.
   time.sleep(1) #Wait 1 sec before sending the next bytes
   ser.write(str(y)"\n)".encode('ascii')) #Write the bytes to the port. This should be of type bytes.
