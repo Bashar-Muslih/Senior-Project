@@ -16,8 +16,8 @@ Servo wrist_ver; //M5
 Servo gripper; //M6
 
 //Sonar GPIO pins
-#define echo 12
-#define trig 13
+#define echo 8
+#define trig 9
 
 void setup() {  
   //Begin serial monitor.
@@ -133,19 +133,25 @@ void loop(){
   Serial.println("Base Angle: ");
   Serial.println(Rotation);//Doesnt work for some reason, need to work on this.
   //Begin rotation after doing the math.
-  Braccio.ServoMovement(20,         Rotation, 45, 180, 180, 90, 73);
+  Braccio.ServoMovement(20,         Rotation, 155, 180, 35, 90, 73);//Grabbing angles
   //For this function we need the 3 angles (M2, M3, M4) with regards to the ultrasonic sensor
   //information.
+  
+  
+  //-------------------STARTS TO TWEAK HERE-------------------//
+  
+  
   //To have the sensor trigger we use the following:
   digitalWrite(trig, LOW);
-  delayMicroseconds(100);
+  delayMicroseconds(1000);
   digitalWrite(trig, HIGH);
-  delayMicroseconds(100);
+  delayMicroseconds(1000);
   digitalWrite(trig, LOW);
+  delayMicroseconds(1000);
   //Next we need to define the distance it will be using.
   //Next we need to define the distance it will be using.
   float distance = pulseIn(echo, HIGH);
-  distance = 50; //(distance * .0343)/2; //duration times the speed of light cm/us
+  distance = distance/58; //duration times the speed of light cm/us
   Serial.print('\n');
   Serial.print("Distance: ");
   Serial.print(distance);
