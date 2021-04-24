@@ -172,12 +172,7 @@ void loop(){
     distance = pulseIn(echo, HIGH); //calculates the new distance
     distance = (distance * .0343)/2; //calculates the new distance
   }
-  /* Jose's if statement
-  if (distance > 25; x++){
-    ang1 = 155 + x;
-    ang2 = 180 - x;
-    ang3 = 35 + x;
-    
+  //----------------Need some way to export an1, ang2, and ang3 once minimum distance is reached to our new braccio.movement function---------------//
     Braccio.ServoMovement(20,         Rotation, ang1, ang2, ang3, 90, 10);//Compiles but not sure if it works
     //need to glue the ultrasonic sensor
   }
