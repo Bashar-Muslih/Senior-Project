@@ -160,6 +160,19 @@ void loop(){
   //stop moving once a distance is detected. This lower limit is measured from the base of the
   //hand to our sensor, once this is reached the movement stops and the hand closes.
   //Was thinking this might be a way to get our loop working but its not working right now.
+    ang1 = 155;
+    ang2 = 180;
+    ang3 = 35;
+  while (distance > 25){
+
+    ang1 = ang1 +1; //if the item isn't close enough we move up the arm a bit
+    ang2 = ang2 -1;
+    ang3 = ang3 +1;
+    Braccio.ServoMovement(20,         Rotation, ang1, ang2, ang3, 90, 10); //moves the arm towards the item
+    distance = pulseIn(echo, HIGH); //calculates the new distance
+    distance = (distance * .0343)/2; //calculates the new distance
+  }
+  /* Jose's if statement
   if (distance > 25; x++){
     ang1 = 155 + x;
     ang2 = 180 - x;
@@ -168,6 +181,7 @@ void loop(){
     Braccio.ServoMovement(20,         Rotation, ang1, ang2, ang3, 90, 10);//Compiles but not sure if it works
     //need to glue the ultrasonic sensor
   }
+  */
   //With our arm moving towards the soda can we now need some way to close hand of the arm.
   //To do this we need to use ultrasonic sensor information.
   if (distance == 25){
