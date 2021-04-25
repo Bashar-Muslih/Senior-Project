@@ -27,7 +27,6 @@ void loop() {
       }
     }
   }
-}
   //Assign received coordinates:
   X = coord[0];
   Y = coord[1];
