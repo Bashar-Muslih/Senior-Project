@@ -16,15 +16,19 @@ void setup() {
 void loop() {
   float coord[1]; //Array with 2 values. [x, y]
   bool xyReceived = False;
-    while(xyReceived == False){
-      if (Serial.available() > 0) { //Check if the Arduino has received data. This will give you the number of bytes already arrived and stored in the receive buffer.
-        for(int i = 0; i < 2; i++){ //Two iterations: one for 'x', one for 'y'
-          coord[i] = Serial.parseFloat(); //Reads the first valid floating point number from the Serial buffer
-          Serial.println(coord[i]); //Print value
-          if(i == 1){
-            xyReceived = True;
-          }
+  while(xyReceived == False){
+    if (Serial.available() > 0) { //Check if the Arduino has received data. This will give you the number of bytes already arrived and stored in the receive buffer.
+      for(int i = 0; i < 2; i++){ //Two iterations: one for 'x', one for 'y'
+        coord[i] = Serial.parseFloat(); //Reads the first valid floating point number from the Serial buffer
+        Serial.println(coord[i]); //Print value
+        if(i == 1){
+          xyReceived = True;
         }
       }
     }
+  }
+}
+  //Assign received coordinates:
+  X = coord[0];
+  Y = coord[1];
 }
