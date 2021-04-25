@@ -16,6 +16,6 @@ if __name__ == '__main__':
   ser.flush() #Wait until all data is written.
   
   time.sleep(2) #Gives Arduino some time.
-  ser.write(str(x)"\n").encode('ascii')) #Write the bytes to the port. This should be of type bytes.
+  ser.write(str(x).encode('ascii')) #Write the bytes to the port. This should be of type bytes.
   time.sleep(1) #Wait 1 sec before sending the next bytes
-  ser.write(str(y)"\n").encode('ascii')) #Write the bytes to the port. This should be of type bytes.
+  ser.write(str(y).encode('ascii')) #Write the bytes to the port. This should be of type bytes.
