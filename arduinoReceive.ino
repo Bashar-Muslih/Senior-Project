@@ -7,27 +7,30 @@
 
 */
 void setup() {
+  // put your setup code here, to run once:
   Serial.begin(9600);
-  /*
-  Passes the value 9600 to the speed parameter.
-  This tells the Arduino to get ready to exchange messages with the Serial Monitor at a data rate of 9600 bits per second.
-  */
 }
+
 void loop() {
-  float coord[1]; //Array with 2 values. [x, y]
-  bool xyReceived = False;
-  while(xyReceived == False){
-    if (Serial.available() > 0) { //Check if the Arduino has received data. This will give you the number of bytes already arrived and stored in the receive buffer.
-      for(int i = 0; i < 2; i++){ //Two iterations: one for 'x', one for 'y'
-        coord[i] = Serial.parseFloat(); //Reads the first valid floating point number from the Serial buffer
-        Serial.println(coord[i]); //Print value
-        if(i == 1){
-          xyReceived = True;
-        }
+  // put your main code here, to run repeatedly:
+  float coord[2]; //Array with 3 values: [x, y] including null at the beginning.
+  float X, Y;
+  int i = 0;
+  
+  if (Serial.available() > 2) { //Check if the Arduino has received data. This will give you the number of bytes already arrived and stored in the receive buffer.
+      Serial.flush();
+      while(Serial.available()){
+        delay(1000);
+        coord[i] = Serial.parseFloat();
+        i++;
       }
-    }
+      delay(1000);
+      X = coord[0];
+      Y = coord[1];
+      //Serial.print("You sent me X = ");
+      //Serial.println(X);
+      //delay(1000);
+      //Serial.print("You sent me Y = ");
+      //Serial.println(Y);
+      //delay(1000);
   }
-  //Assign received coordinates:
-  X = coord[0];
-  Y = coord[1];
-}
