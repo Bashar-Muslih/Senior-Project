@@ -3,12 +3,12 @@ import cv2
 thres = 0.45 # Threshold to detect object
 
 classNames= []
-classFile = '/home/pi/Desktop/Object detection/coco.names'
+classFile = '/home/pi/Downloads/Objectcv/coco.names'
 with open(classFile,'rt') as f:
     classNames = f.read().rstrip('\n').split('\n')
 
-configPath = '/home/pi/Desktop/Object detection/ssd_mobilenet_v3_large_coco_2020_01_14.pbtxt'
-weightsPath = '/home/pi/Desktop/Object detection/frozen_inference_graph.pb'
+configPath = '/home/pi/Downloads/Objectcv/ssd_mobilenet_v3_large_coco_2020_01_14.pbtxt'
+weightsPath = '/home/pi/Downloads/Objectcv/frozen_inference_graph.pb'
 
 net = cv2.dnn_DetectionModel(weightsPath,configPath)
 net.setInputSize(320,320)
@@ -32,6 +32,13 @@ def getObjects(img,thres,nms,draw = True,objects=[]):
                             cv2.FONT_HERSHEY_COMPLEX,1,(0,255,0),2)
                     cv2.putText(img,str(round(confidence*100,2)),(box[0]+200,box[1]+30),
                             cv2.FONT_HERSHEY_COMPLEX,1,(0,255,0),2)
+                    #print("box[0] = ", box[0], "| box[1] = ", box[1]," | box[2] = ", box[2]," | box[3] = ", box[3])
+                    global x
+                    x = box[0] + 0.5*box[2]
+                    global y
+                    y = box[1] + 0.5*box[3]
+                    #return x,y
+                    #print(x,y)
 
     return img,objectInfo
 
@@ -40,9 +47,13 @@ if __name__ == "__main__":
     cap.set(3,640)
     cap.set(4,480)
     #cap.set(10,70)
+    x = 0
+    y = 0  
     while True:
         success,img = cap.read()
-        result,objectInfo = getObjects(img, 0.45, 0.2, objects=['cup', 'bottle']) #chooses which one to detect
+        result,objectInfo = getObjects(img, 0.45, 0.2, objects=['cup', 'bottle'])#chooses which one to detect
         print(objectInfo)
+        #print(objectInfo.box[0])
+        print(x,y)
         cv2.imshow("Output",img)
         cv2.waitKey(1)
