@@ -77,14 +77,14 @@ void loop(){
   if (X > 320){
     Rotation = Rotation - 1;
     while (distance > 15){
-      Braccio.ServoMovement(20,     90, 45, 180, 180, 90, 73);
+      Braccio.ServoMovement(20,     Rotation, 45, 180, 180, 90, 73);
       }
   }
 
   else if (X < 320){
     Rotation = Rotation + 1;
     while (distance > 15){
-      Braccio.ServoMovement(20,     90, 45, 180, 180, 90, 73);
+      Braccio.ServoMovement(20,     Rotation, 45, 180, 180, 90, 73);
     }
   }
   Serial.println('\n');
