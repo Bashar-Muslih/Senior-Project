@@ -52,7 +52,6 @@ if __name__ == "__main__":
     ####### Initialize port
     ser = serial.Serial('/dev/ttyACM0', 9600, timeout = 1)
     ser.flush()
-    time.sleep(1)
     #######
     x = 0
     y = 0  
@@ -64,13 +63,8 @@ if __name__ == "__main__":
         print(x,y)
         ###### Send X and Y
         ser.write("\n".encode('ascii'))
-        time.sleep(1)
         ser.write(str(x).encode('ascii') + b"\n")
-        #print("Sent X = " + str(x))
-        time.sleep(1)   
         ser.write(str(y).encode('ascii'))
-        #print("Sent Y = " + str(y)) 
-        time.sleep(1)
         ######
         cv2.imshow("Output",img)
         cv2.waitKey(1)
