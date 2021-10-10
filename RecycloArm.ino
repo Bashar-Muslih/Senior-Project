@@ -32,29 +32,30 @@ void setup() {
 }
 
 void loop(){
-//  float coord[2]; //Array with 3 values: [x, y] including null at the beginning.
-//  float X, Y;
-//  int i = 0;
-//  
-//  if (Serial.available() > 0) { //Check if the Arduino has received data. This will give you the number of bytes already arrived and stored in the receive buffer.
-//      Serial.flush();
-//      while(Serial.available()){
-//        coord[i] = Serial.parseFloat();
-//        i++;
-//        if (i == 2){
-//          i = 0;
-//        }
-//      }
-//  }  
-//      X = coord[0];
-//      Y = coord[1];
+  float Rotation, ang1, ang2, ang3;//These values are given to us from our camera
+  float coord[2]; //Array with 3 values: [x, y] including null at the beginning.
+  float X, Y;
+  int i = 0;
+  
+  if (Serial.available() > 0) { //Check if the Arduino has received data. This will give you the number of bytes already arrived and stored in the receive buffer.
+      Serial.flush();
+      while(Serial.available()){
+        coord[i] = Serial.parseFloat();
+        i++;
+        if (i == 2){
+          i = 0;
+        }
+      }
+  }  
+  X = coord[0];
+  Y = coord[1];
    //Given X, and Y from the camera, we calculate the angle needed for our arm
   //to rotate to allow our arm to grab the can. 
-  float X, Rotation, ang1, ang2, ang3;//These values are given to us from our camera
+  //float X, Rotation, ang1, ang2, ang3;//These values are given to us from our camera
   //The base is initially at 90 degrees, using this we use X coordinate we find using the camera.
   //The picture has origin is at the top right, meaning the X goes from 0 ------> 640 px
   //To rotate that means when X < 320 turn left, when X > 320 turn right
-  X = 367;  
+  //X = 367;  
   //Initializing ultrasonic sensor
   digitalWrite(trig, LOW);
   delayMicroseconds(1000);
