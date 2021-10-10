@@ -84,9 +84,9 @@ void loop(){
       Braccio.ServoMovement(20,     Rotation, 45, 180, 180, 90, 73);
     }
   }
-  Serial.println('\n');
-  Serial.println("Base Angle: ");
-  Serial.println(Rotation);//Doesnt work for some reason, need to work on this. EDIT: does work
+  //Serial.println('\n');
+  //Serial.println("Base Angle: ");
+  //Serial.println(Rotation);//Doesnt work for some reason, need to work on this. EDIT: does work
   //Begin rotation after doing the math.
   Braccio.ServoMovement(20,         90, 145, 180, 40, 90, 0);
   delayMicroseconds(1000);//Experimental delay to make the robot do things in steps
@@ -129,6 +129,7 @@ void loop(){
   Braccio.ServoMovement(20,         270, 90, 180, 90, 90, 73);//This should rotate our soda can to the left as our angles are flipped
   delay(500);//Half second delay
   Braccio.ServoMovement(20,         270, 90, 180, 90, 90, 0);//This should drop our soda can
+  delay(1000);
   //*************** THIS SHOULD BE THE END OF OUR CODE ***********************//
   //From here we just need to test on the arm and check to make sure everything runs the way we want it to
 }
