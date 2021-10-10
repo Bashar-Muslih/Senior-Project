@@ -18,11 +18,11 @@ void loop() {
   int i = 0;
   bool coordTransfer = false;
 
-  while(coordTransfer == false){
+while(coordTransfer == false){
     if (Serial.available() > 2) { //Check if the Arduino has received data. This will give you the number of bytes already arrived and stored in the receive buffer.
       Serial.flush();
       while(Serial.available()){
-        delay(1000);
+        delay(1);
         coord[i] = Serial.parseFloat();
         i++;
       }
@@ -31,13 +31,14 @@ void loop() {
       coordTransfer == true;
     }
   }
-  delay(1000);
+  i = 0;
+  delay(1);
   X = coord[0];
   Y = coord[1];
   Serial.print("You sent me X = ");
   Serial.println(X);
-  delay(1000);
+  delay(1);
   Serial.print("You sent me Y = ");
   Serial.println(Y);
-  delay(1000);
+  delay(1);
 }
