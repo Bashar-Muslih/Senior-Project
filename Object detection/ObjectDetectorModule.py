@@ -1,4 +1,6 @@
 import cv2
+import serial
+import time
 
 thres = 0.45 # Threshold to detect object
 
@@ -47,6 +49,11 @@ if __name__ == "__main__":
     cap.set(3,640)
     cap.set(4,480)
     #cap.set(10,70)
+    ####### Initialize port
+    ser = serial.Serial('/dev/ttyACM0', 9600, timeout = 1)
+    ser.flush()
+    time.sleep(1)
+    #######
     x = 0
     y = 0  
     while True:
@@ -55,5 +62,15 @@ if __name__ == "__main__":
         print(objectInfo)
         #print(objectInfo.box[0])
         print(x,y)
+        ###### Send X and Y
+        ser.write("\n".encode('ascii'))
+        time.sleep(1)
+        ser.write(str(x).encode('ascii') + b"\n")
+        #print("Sent X = " + str(x))
+        time.sleep(1)   
+        ser.write(str(y).encode('ascii'))
+        #print("Sent Y = " + str(y)) 
+        time.sleep(1)
+        ######
         cv2.imshow("Output",img)
         cv2.waitKey(1)
