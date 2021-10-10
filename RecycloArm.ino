@@ -36,22 +36,18 @@ void loop(){
 //  float X, Y;
 //  int i = 0;
 //  
-//  if (Serial.available() > 2) { //Check if the Arduino has received data. This will give you the number of bytes already arrived and stored in the receive buffer.
+//  if (Serial.available() > 0) { //Check if the Arduino has received data. This will give you the number of bytes already arrived and stored in the receive buffer.
 //      Serial.flush();
 //      while(Serial.available()){
-//        delay(1000);
 //        coord[i] = Serial.parseFloat();
 //        i++;
+//        if (i == 2){
+//          i = 0;
+//        }
 //      }
-//      delay(1000);
+//  }  
 //      X = coord[0];
 //      Y = coord[1];
-//      Serial.print("You sent me X = ");
-//      Serial.println(X);
-//      delay(1000);
-//      Serial.print("You sent me Y = ");
-//      Serial.println(Y);
-//      delay(1000);
    //Given X, and Y from the camera, we calculate the angle needed for our arm
   //to rotate to allow our arm to grab the can. 
   float X, Rotation, ang1, ang2, ang3;//These values are given to us from our camera
