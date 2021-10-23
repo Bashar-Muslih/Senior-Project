@@ -37,33 +37,41 @@ void loop(){
   Rotation = 90;
   found = false;
   Braccio.ServoMovement(20,         Rotation, 125, 180, 60, 90, 10);
-//  float coord[2]; //Array with 3 values: [x, y] including null at the beginning.
+  
+  float coord[2]; //Array with 2 values. [x, y]
   float X, Y;
-//  int i = 0;
-//  
-//  if (Serial.available() > 2) { //Check if the Arduino has received data. This will give you the number of bytes already arrived and stored in the receive buffer.
-//      Serial.flush();
-//      while(Serial.available()){
-//        delay(1000);
-//        coord[i] = Serial.parseFloat();
-//        i++;
-//      }
-//      delay(1000);
-//      X = coord[0];
-//      Y = coord[1];
-//      Serial.print("You sent me X = ");
-//      Serial.println(X);
-//      delay(1000);
-//      Serial.print("You sent me Y = ");
-//      Serial.println(Y);
-////      delay(1000);
+  int i = 0;
+  bool coordTransfer = false;
+
+  while(coordTransfer == false){    
+    if (Serial.available() > 0) { //Check if the Arduino has received data. This will give you the number of bytes already arrived and stored in the receive buffer.
+      Serial.flush();
+      while(Serial.available()){
+        delay(1000);
+        coord[i] = Serial.parseFloat();
+
+        Serial.print("coord[");
+        Serial.print(i);
+        Serial.print("] = ");
+        Serial.println(coord[i]);
+        
+        i++;
+        if (i == 2){
+          coordTransfer = true;
+        }
+      }
+    }
+  }
+  delay(1000);
+  X = coord[0];
+  Y = coord[1];
+
 //   //Given X, and Y from the camera, we calculate the angle needed for our arm
 //  //to rotate to allow our arm to grab the can. 
   float ang1, ang2, ang3;//These values are given to us from our camera
 //  //The base is initially at 115 degrees, using this we use X coordinate we find using the camera.
 //  //The picture has origin is at the top right, meaning the X goes from 0 ------> 640 px
-//  //To rotate that means when X < 320 turn left, when X > 320 turn right
-  X = 367;  
+//  //To rotate that means when X < 320 turn left, when X > 320 turn right  
   //Initializing ultrasonic sensor
   digitalWrite(trig, LOW);
   delayMicroseconds(1000);
@@ -82,7 +90,7 @@ void loop(){
 //  //work space. 
   while (found == false){
   if (X > 320){
-    while (distance > 15 & Rotation < 180){
+    while (distance > 15 && Rotation < 180){
       Braccio.ServoMovement(20,         Rotation, 125, 180, 60, 90, 10);
       distance = pulseIn(echo, HIGH);
       distance = (distance * .0343)/2; //duration times the speed of light cm/us
@@ -99,8 +107,8 @@ void loop(){
       }
   }
 //
-  else if (X > 320){
-    while (distance > 15 & Rotation > 0){
+  else if (X < 320){
+    while (distance > 15 && Rotation > 0){
       Braccio.ServoMovement(20,         Rotation, 125, 180, 60, 90, 10);
       distance = pulseIn(echo, HIGH);
       distance = (distance * .0343)/2; //duration times the speed of light cm/us
