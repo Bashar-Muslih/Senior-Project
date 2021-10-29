@@ -32,49 +32,45 @@ void setup() {
 }
 
 void loop(){
-  Braccio.ServoMovement(20,           90,  15, 180, 170, 90,  73);
-  float Rotation;
-  boolean found;
-  Rotation = 90;
-  found = false;
-  Braccio.ServoMovement(20,         Rotation, 125, 180, 60, 90, 10);
+  Braccio.ServoMovement(20,           90,  15, 180, 170, 90,  73);//initial position for the arm
+  float Rotation;//defining the base angle of the arm
+  float ang1, ang2, ang3;//defining angles for parts of the arm
+  Rotation = 90;//sets base variable to 90'
+  Braccio.ServoMovement(20,         Rotation, 125, 180, 60, 90, 10);//moving the arm to a position that's ready to grab
   
-//  float coord[2]; //Array with 2 values. [x, y]
-//  float X, Y;
-//  int i = 0;
-//  bool coordTransfer = false;
-//
-//  while(coordTransfer == false){    
-//    if (Serial.available() > 0) { //Check if the Arduino has received data. This will give you the number of bytes already arrived and stored in the receive buffer.
-//      Serial.flush();
-//      while(Serial.available()){
-//        delay(1000);
-//        coord[i] = Serial.parseFloat();
-//
-//        Serial.print("coord[");
-//        Serial.print(i);
-//        Serial.print("] = ");
-//        Serial.println(coord[i]);
-//        
-//        i++;
-//        if (i == 2){
-//          coordTransfer = true;
-//        }
-//      }
-//    }
-//  }
-//  delay(1000);
-//  X = coord[0];
-//  Y = coord[1];
-    float X;
-    X = 330;
-//   //Given X, and Y from the camera, we calculate the angle needed for our arm
-//  //to rotate to allow our arm to grab the can. 
-  float ang1, ang2, ang3;//These values are given to us from our camera
-//  //The base is initially at 115 degrees, using this we use X coordinate we find using the camera.
-//  //The picture has origin is at the top right, meaning the X goes from 0 ------> 640 px
-//  //To rotate that means when X < 320 turn left, when X > 320 turn right  
-  //Initializing ultrasonic sensor
+  float coord[2]; //Array with 2 values. [x, y]
+  float X, Y;
+  int i = 0;
+  bool coordTransfer = false;
+
+  while(coordTransfer == false){    
+    if (Serial.available() > 0) { //Check if the Arduino has received data. This will give you the number of bytes already arrived and stored in the receive buffer.
+      Serial.flush();
+      while(Serial.available()){
+        delay(1000);
+        coord[i] = Serial.parseFloat();
+
+        Serial.print("coord[");
+        Serial.print(i);
+        Serial.print("] = ");
+        Serial.println(coord[i]);
+        
+        i++;
+        if (i == 2){
+          coordTransfer = true;
+        }
+      }
+    }
+  }
+  delay(1000);
+  X = coord[0];
+  Y = coord[1];
+
+//The base is initially at 90 degrees, using this we use X coordinate we find using the camera.
+//The picture has origin is at the top right, meaning the X goes from 0 ------> 640 px
+//To rotate that means when X < 320 turn left, when X > 320 turn right  
+
+//Initializing ultrasonic sensor
   digitalWrite(trig, LOW);
   delayMicroseconds(1000);
   digitalWrite(trig, HIGH);
@@ -88,13 +84,17 @@ void loop(){
   Serial.print("Distance: ");
   Serial.print(distance);
   delay(1000);
-//  //We want to turn until the ultrasonic senses something, for this we set a certain distance matching our
-//  //work space. 
-  while (found == false){
-    Rotation = 90;
-  if (X > 320){
+
+  boolean found;
+  found = false;
+  
+//We want to turn until the ultrasonic senses something, for this we set a certain distance matching our
+//work space. 
+  while (found == false){//the arm will loop until it detects something
+    Rotation = 90;//if the loop ends at it doesn't find anything, it will reset to inital base position and starts over
+  if (X > 320){//since the picture is 640 px wide, 320 is the center. If X is more than 320 that means it's on the right
     Serial.print("Bottle is on my right");
-    while (distance > 20 && Rotation < 180){
+    while (distance > 20 && Rotation < 180){//The arm is in a loop of moving and detecting, and will continue until it finds something or reaches the max range of movement
       Rotation = Rotation + 2.5;
       Braccio.ServoMovement(20,         Rotation, 125, 180, 60, 90, 10);
       distance = pulseIn(echo, HIGH);
@@ -106,14 +106,14 @@ void loop(){
       Serial.print("Rotation: ");
       Serial.print(Rotation);
       delay(1000);
-      if (distance <= 20)
+      if (distance <= 20)//if it detects something, it exists the loop
           found = true;
       }
   }
 //
-  else if (X < 320){
+  else if (X < 320){//since the picture is 640 px wide, 320 is the center. If X is less than 320 that means it's on the left
     Serial.print("Bottle is on my left");
-    while (distance > 20 && Rotation > 0){
+    while (distance > 20 && Rotation > 0){//The arm is in a loop of moving and detecting, and will continue until it finds something or reaches the max range of movement
       Rotation = Rotation - 2.5;
       Braccio.ServoMovement(20,         Rotation, 125, 180, 60, 90, 10);
       distance = pulseIn(echo, HIGH);
@@ -125,12 +125,12 @@ void loop(){
       Serial.print("Rotation: ");
       Serial.print(Rotation);
       delay(1000);
-      if (distance <= 20)
+      if (distance <= 20)//if it detects something, it exists the loop
           found = true;
       }
   }
   else{
-      Serial.print("Bottle is in front of me");
+      Serial.print("Bottle is in front of me");//if the object is neither on left or right, it's in the front
       while (distance > 20){
       Braccio.ServoMovement(20,         Rotation, 125, 180, 60, 90, 10);
       distance = pulseIn(echo, HIGH);
@@ -142,31 +142,19 @@ void loop(){
       Serial.print("Rotation: ");
       Serial.print(Rotation);
       delay(1000);
-      if (distance <= 20)
+      if (distance <= 20)//if it detects something, it exists the loop
           found = true;
       }
   }
   }
-//  //Begin rotation after doing the math.
-//  Braccio.ServoMovement(20,         90, 145, 180, 40, 90, 0);
-//  delayMicroseconds(1000);//Experimental delay to make the robot do things in steps
-//  //not in one single movement.
-//  //----------Think after this part is where the problem arises-------------//
-//
-//  //For this function we need the 3 angles (M2, M3, M4) with regards to the ultrasonic sensor
-//  //information.
-//  //To have the sensor trigger we use the following:
-//
-//  //With this we have a working ultrasonic sensor.
-//  //Now we need to code for detection of the soda can, that is, set the unit distance our arm
-//  //stop moving once a distance is detected. This lower limit is measured from the base of the
-//  //hand to our sensor, once this is reached the movement stops and the hand closes.
+  //This part of the code starts when the object detects something in front of it
+  //This is the grabbing process
     ang1 = 125;
     ang2 = 180;
     ang3 = 60;
     Serial.print("I'm moving in closer to grab the bottle");
-  while (distance > 5 & ang1 < 165 & ang2 > 0 & ang3 < 180){
-    ang1 = ang1 + .5; //if the item isn't close enough we move up the arm a bit
+  while (distance > 5 & ang1 < 165 & ang2 > 0 & ang3 < 180){//if the item isn't close enough we move up the arm a bit without breaking limits
+    ang1 = ang1 + .5; 
     ang2 = ang2 - .5;
     //ang3 = ang3 + .5;
     Braccio.ServoMovement(20,         Rotation, ang1, ang2, ang3, 90, 10); //moves the arm towards the item
@@ -174,12 +162,12 @@ void loop(){
     distance = (distance * .0343)/2; //calculates the new distance
   }
 
+  //This part of the code starts when the arm has the item in its claw, and may close it and move it
   //With our arm moving towards the soda can we now need some way to close hand of the arm.
-  //To do this we need to use ultrasonic sensor information.
   
     Serial.print("I'm closing my claw and throwing the bottle away");
     //This distance should be measured to be sure that the soda can is within the hand of the Braccio.
-    Braccio.ServoMovement(20,         Rotation, ang1, ang2, 60, 90, 43);//63 Value means the gripper closes, this
+    Braccio.ServoMovement(20,         Rotation, ang1, ang2, 60, 90, 43);//43 Value means the gripper closes, this
     //should be strong enough to grasp the soda can when its standing upright.
     Braccio.ServoMovement(20,         Rotation, ang1, ang2, 40,  90, 43);
     delay(1000);
@@ -189,7 +177,7 @@ void loop(){
     delay(1000);
     Braccio.ServoMovement(20,         180,  90, 90, 170, 90, 43);
     delay(1000);
-    Braccio.ServoMovement(20,         180,  90, 90, 170, 90, 10);
+    Braccio.ServoMovement(20,         180,  90, 90, 170, 90, 10);//10 means the gripper is open and it drops the item
 
   
 //  //With the soda can within the hand we must now move it to a box on the side to store it.
