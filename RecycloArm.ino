@@ -92,7 +92,7 @@ void loop(){
 //work space. 
   while (found == false){//the arm will loop until it detects something
     Rotation = 90;//if the loop ends at it doesn't find anything, it will reset to inital base position and starts over
-  if (X > 320){//since the picture is 640 px wide, 320 is the center. If X is more than 320 that means it's on the right
+  if (X < 320){//since the picture is 640 px wide, 320 is the center. If X is more than 320 that means it's on the right
     Serial.print("Bottle is on my right");
     while (distance > 20 && Rotation < 180){//The arm is in a loop of moving and detecting, and will continue until it finds something or reaches the max range of movement
       Rotation = Rotation + 2.5;
@@ -111,7 +111,7 @@ void loop(){
       }
   }
 //
-  else if (X < 320){//since the picture is 640 px wide, 320 is the center. If X is less than 320 that means it's on the left
+  else if (X > 320){//since the picture is 640 px wide, 320 is the center. If X is less than 320 that means it's on the left
     Serial.print("Bottle is on my left");
     while (distance > 20 && Rotation > 0){//The arm is in a loop of moving and detecting, and will continue until it finds something or reaches the max range of movement
       Rotation = Rotation - 2.5;
@@ -157,7 +157,7 @@ void loop(){
     ang1 = ang1 + .5; 
     ang2 = ang2 - .5;
     //ang3 = ang3 + .5;
-    Braccio.ServoMovement(20,         Rotation, ang1, ang2, ang3, 90, 10); //moves the arm towards the item
+    Braccio.ServoMovement(20,         Rotation, ang1, ang2, 60, 90, 10); //moves the arm towards the item
     distance = pulseIn(echo, HIGH); //calculates the new distance
     distance = (distance * .0343)/2; //calculates the new distance
   }
@@ -171,13 +171,13 @@ void loop(){
     //should be strong enough to grasp the soda can when its standing upright.
     Braccio.ServoMovement(20,         Rotation, ang1, ang2, 40,  90, 43);
     delay(1000);
-    Braccio.ServoMovement(20,         Rotation,  15, 180, 170, 90,  43);
+    Braccio.ServoMovement(20,         Rotation, 90, 180, 40, 90,  43);
     delay(1000);
-    Braccio.ServoMovement(20,         180,  15, 180, 170, 90, 43);
+    Braccio.ServoMovement(20,         180,  90, 180, 40, 90,  43);
     delay(1000);
-    Braccio.ServoMovement(20,         180,  90, 90, 170, 90, 43);
+    Braccio.ServoMovement(20,         180,  90, 180, 90, 90,  43);
     delay(1000);
-    Braccio.ServoMovement(20,         180,  90, 90, 170, 90, 10);//10 means the gripper is open and it drops the item
+    Braccio.ServoMovement(20,         180,  90, 180, 90, 90,  10);//10 means the gripper is open and it drops the item
 
   
 //  //With the soda can within the hand we must now move it to a box on the side to store it.
